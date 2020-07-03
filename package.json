@@ -11,6 +11,14 @@
     "src",
     "dist"
   ],
+  "homepage": "https://github.com/flameddd/redux-sharedworker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flameddd/redux-sharedworker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flameddd/redux-sharedworker/issues"
+  },
   "scripts": {
     "clean": "rimraf lib dist es",
     "prepare": "npm run clean && npm run lint && npm run build",
