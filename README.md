@@ -29,7 +29,7 @@ To enable **Redux SharedWorker**, use [`applyMiddleware()`](https://redux.js.org
 
 ```js
 import { createStore, applyMiddleware, compose } from 'redux';
-import createSharedWorkerMiddleware from 'redux-sharedworker';
+import createSharedWorkerMiddleware from '@flameddd/redux-sharedworker';
 import rootReducer from './reducers/index';
 
 const middlewares = [
