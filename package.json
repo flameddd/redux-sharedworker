@@ -1,5 +1,5 @@
 {
-  "name": "redux-sharedworker",
+  "name": "@flameddd/redux-sharedworker",
   "version": "1.0.0",
   "description": "redux sharedworker middleware, sync action",
   "main": "lib/index.js",

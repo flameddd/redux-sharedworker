@@ -2,7 +2,7 @@
 SharedWorker [middleware](https://redux.js.org/advanced/middleware) for Redux.
 
 ```bash
-npm install redux-sharedworker
+npm install @flameddd/redux-sharedworker
 ```
 
 ## What Redux SharedWorker can do ?
@@ -14,7 +14,7 @@ Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedW
 
 ## Installation
 ```bash
-npm install redux-sharedworker
+npm install @flameddd/redux-sharedworker
 ```
 
 after intalled, We have to:  
