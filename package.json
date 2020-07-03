@@ -1,0 +1,53 @@
+{
+  "name": "redux-sharedworker",
+  "version": "1.0.0",
+  "description": "redux sharedworker middleware, sync action",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "es",
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf lib dist es",
+    "prepare": "npm run clean && npm run lint && npm run build",
+    "lint": "eslint --fix \"src/*.js\"",
+    "prettier": "prettier --write \"src/*.js\"",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development npx webpack",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production npx webpack"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "redux-middleware",
+    "sharedworker"
+  ],
+  "author": "Jacky",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier && git add . && npm run lint"
+    }
+  }
+}
