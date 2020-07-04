@@ -5,9 +5,9 @@ SharedWorker [middleware](https://redux.js.org/advanced/middleware) for Redux.
 npm install @flameddd/redux-sharedworker
 ```
 
-# BREAKING CHANGE from V1 to V2 (upgrade to V2 to fix #1 issue)
+# BREAKING CHANGE from V1 to V2 (upgrade to V2 to fix [#1](https://github.com/flameddd/redux-sharedworker/issues/1) issue)
 - **Add** init flow
-  - V2 have to `dispatch({ type: 'SHARED_WORDER_INIT' })` action to **init** **sharedworker's onmessage** function
+  - V2 have to `dispatch({ type: 'SHARED_WORDER_INIT' })` to **init** **sharedworker's onmessage** to receive broadcast actions
 - **Rename** Action field to `SHARED_WORDER_ACTION` (instead of `SHARE_WORDER_SYNC_ACTION`)
 
 ## What Redux SharedWorker can do ?
@@ -24,7 +24,7 @@ npm install @flameddd/redux-sharedworker
 
 **3 steps** after intalled:
 1. Add redux middleware
-2. Dispatch `SHARED_WORDER_INIT` action to **receive** broadcast actions
+2. Dispatch `{ type: 'SHARED_WORDER_INIT' }` action for **receive** broadcast actions
 3. Dispatch to Broadcast Actions
     - **TWO** way to **broadcast Actions** (either one)
       1. add action's **type** into **targetActions** (example in below)
