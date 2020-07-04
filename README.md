@@ -14,8 +14,11 @@ npm install @flameddd/redux-sharedworker
 Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker). We can communicate with multi windows. **Redux SharedWorker** middleware help us to broadcast **Actions** to across multi Tabs and Windows.
 
 <p align="center">
-  <img width="auto" height="450" src="demo01.gif"
+  <img width="auto" height="450" src="https://github.com/flameddd/redux-sharedworker-demo/raw/master/demo2.gif"
 </p>
+  
+### demo repo
+- https://github.com/flameddd/redux-sharedworker-demo
 
 ## Installation
 ```bash
@@ -101,7 +104,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 ```js
 // Example: **Customize** your `worker.js`:
-// see "debug worker" section in below to debug worker.js
+// see "debug worker" section in below to debug customWorker
 
 const customWorker = `
   const ports = [];
@@ -136,9 +139,9 @@ const middlewares = [
 </p>
 
 ## SHARED_WORDER_ACTION (~~SHARE_WORDER_SYNC_ACTION~~)
-Type **SHARED_WORDER_ACTION** is an alternative way to **broadcast Actions** when **Action type** does NOT include in **targetActions**.
+**SHARED_WORDER_ACTION** is an alternative way to **broadcast Actions** when **Action type** does NOT include in **targetActions**.
 
-**Add SHARED_WORDER_ACTION** field and set it is **true**. `redux-sharedworker` will **broadcast** this action too.
+**Add SHARED_WORDER_ACTION** field and set **true**. `redux-sharedworker` will **broadcast** this action too.
 
 ```js
 function mapDispatchToProps(dispatch) {
