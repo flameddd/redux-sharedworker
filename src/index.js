@@ -15,21 +15,24 @@ const createSharedWorker = ({
   SHARED_WORDER_ID,
   targetActions,
 }) => () => (next) => (action) => {
-  const { type, SHARE_WORDER_SYNC_ACTION = false } = action;
-  if (SHARE_WORDER_SYNC_ACTION || targetActions.indexOf(type) !== -1) {
+  const { type, SHARED_WORDER_ACTION = false } = action;
+  if (SHARED_WORDER_ACTION || targetActions.indexOf(type) !== -1) {
     worker.port.postMessage({
       SHARED_WORDER_ID,
-      SHARE_WORDER_SYNC_ACTION: true,
+      SHARED_WORDER_ACTION: true,
       ...action,
     });
   }
 
-  worker.port.onmessage = function ({ data }) {
-    if (data.SHARED_WORDER_ID === SHARED_WORDER_ID) {
-      return;
-    }
-    return next(event.data);
-  };
+  if (type === "SHARED_WORDER_INIT") {
+    worker.port.onmessage = function ({ data }) {
+      if (data.SHARED_WORDER_ID === SHARED_WORDER_ID) {
+        return;
+      }
+      return next(event.data);
+    };
+  }
+
   return next(action);
 };
 
@@ -48,7 +51,14 @@ export const createSharedWorkerMiddleware = ({
 
   if (typeof customWorker !== "string") {
     console.error(
-      'REDUX_SHAREDWORKER WARNING: parameter "customWorker" must be string type'
+      'REDUX_SHAREDWORKER WARNING: parameter "customWorker" must be String type'
+    );
+    return reduxMiddleware;
+  }
+
+  if (!Array.isArray(targetActions)) {
+    console.error(
+      'REDUX_SHAREDWORKER WARNING: parameter "targetActions" must be Array[String] type'
     );
     return reduxMiddleware;
   }
@@ -59,7 +69,11 @@ export const createSharedWorkerMiddleware = ({
     "REDUX_SHAREDWORKER"
   );
 
-  return createSharedWorker({ worker, SHARED_WORDER_ID, targetActions });
+  return createSharedWorker({
+    worker,
+    SHARED_WORDER_ID,
+    targetActions: targetActions.filter((action) => typeof action === "string"),
+  });
 };
 
 export default createSharedWorkerMiddleware;

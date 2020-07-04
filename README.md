@@ -5,6 +5,11 @@ SharedWorker [middleware](https://redux.js.org/advanced/middleware) for Redux.
 npm install @flameddd/redux-sharedworker
 ```
 
+# BREAKING CHANGE from V1 to V2 (upgrade to V2 to fix #1 issue)
+- **Add** init flow
+  - V2 have to `dispatch({ type: 'SHARED_WORDER_INIT' })` action to **init** **sharedworker's onmessage** function
+- **Rename** Action field to `SHARED_WORDER_ACTION` (instead of `SHARE_WORDER_SYNC_ACTION`)
+
 ## What Redux SharedWorker can do ?
 Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker). We can communicate with multi windows. **Redux SharedWorker** middleware help us to broadcast **Actions** to across multi Tabs and Windows.
 
@@ -17,12 +22,13 @@ Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedW
 npm install @flameddd/redux-sharedworker
 ```
 
-after intalled, We have to:  
+**3 steps** after intalled:
 1. Add redux middleware
-2. Broadcast Actions
-    - And there are **TWO** way to **broadcast Actions**
+2. Dispatch `SHARED_WORDER_INIT` action to **receive** broadcast actions
+3. Dispatch to Broadcast Actions
+    - **TWO** way to **broadcast Actions** (either one)
       1. add action's **type** into **targetActions** (example in below)
-      2. add **SHARE_WORDER_SYNC_ACTION** feild in action (example in below)
+      2. add **SHARED_WORDER_ACTION** feild in action (example in below)
 
 ## Add redux middleware
 To enable **Redux SharedWorker**, use [`applyMiddleware()`](https://redux.js.org/api/applymiddleware):
@@ -45,29 +51,64 @@ const store = createStore(
 );
 ```
 
-## createSharedWorkerMiddleware({ customWorker, targetActions })
-### customWorker (String)(optional)
-`customWorker` allow you customize `worker.js`
+## Init redux-sharedworker
+after `v2` version, you have to `dispatch({ type: 'SHARED_WORDER_INIT' })` action to **init** **sharedworker's onmessage** function
+
+### hooks example
 ```js
-// this is default `customWorker`.
-const ports = [];
-onconnect = function (connectEvent) {
-  ports.push(connectEvent.ports[0]); // store all port
-  connectEvent.ports[0].onmessage = function(event) {
-    ports.forEach(port => {
-      port.postMessage(event.data); // broadcast Actions to all ports
-    })
-  }
+import React from 'react';
+import { useDispatch } from 'react-redux';
+
+function App() {
+  const dispatch = useDispatch(); 
+
+  React.useEffect(() => {
+    dispatch({ type: 'SHARED_WORDER_INIT' })
+  },[dispatch])
+
+  return (
+    <div className="App" />
+  );
 }
+
+export default App;
 ```
 
-#### Example to how **Customize** `worker.js`:
+### connect class example
 ```js
+import React from 'react';
+import { connect } from 'react-redux';
+
+// use connect to get dispatch props
+class App extends React.Component {
+  componentDidMount() {
+    this.props.dispatch({ type: 'SHARED_WORDER_INIT' });
+  }
+  render() {
+    return (
+      <div className="App" />
+    );
+  }
+}
+
+const mapStateToProps = null;
+const mapDispatchToProps = null
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+```
+
+## createSharedWorkerMiddleware({ customWorker, targetActions })
+### customWorker (String)(optional)
+
+```js
+// Example: **Customize** your `worker.js`:
+// see "debug worker" section in below to debug worker.js
+
 const customWorker = `
   const ports = [];
   onconnect = function (connectEvent) {
     ports.push(connectEvent.ports[0])
     connectEvent.ports[0].onmessage = function(event) {
+      // console.log(event)
       ports.forEach(port => {
         port.postMessage(event.data)
       })
@@ -94,17 +135,17 @@ const middlewares = [
   <img width="auto" height="450" src="demo01.gif"
 </p>
 
-## SHARE_WORDER_SYNC_ACTION
-Type **SHARE_WORDER_SYNC_ACTION** is an alternative way to **broadcast Actions** when **Action type** does NOT include in **targetActions**.
+## SHARED_WORDER_ACTION (~~SHARE_WORDER_SYNC_ACTION~~)
+Type **SHARED_WORDER_ACTION** is an alternative way to **broadcast Actions** when **Action type** does NOT include in **targetActions**.
 
-**Add SHARE_WORDER_SYNC_ACTION** field and set it is **true**. `redux-sharedworker` will **broadcast** this action too.
+**Add SHARED_WORDER_ACTION** field and set it is **true**. `redux-sharedworker` will **broadcast** this action too.
 
 ```js
 function mapDispatchToProps(dispatch) {
   return {
     onAdd: () => dispatch({ type: 'ADD' }),
     onMIN: () => dispatch({ type: 'MIN' }),
-    onRest: () => dispatch({ type: 'RESET', SHARE_WORDER_SYNC_ACTION: true }),
+    onRest: () => dispatch({ type: 'RESET', SHARED_WORDER_ACTION: true }),
   };
 }
 
@@ -125,6 +166,7 @@ type `chrome://inspect` into URL and `inspect` worker. This can help a lot when 
 ## Can I Use ? (browsers support)
 - https://caniuse.com/#search=shared 
 
+2020/07/03
 <p align="center">
   <img width="auto" height="400" src="CanIUse.jpg"
 </p>

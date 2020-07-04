@@ -1,6 +1,6 @@
 {
   "name": "@flameddd/redux-sharedworker",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "redux sharedworker middleware, broadcast action cross to Tabs, Windows.",
   "main": "lib/index.js",
   "module": "es/index.js",
