@@ -6,7 +6,7 @@ npm install @flameddd/redux-sharedworker
 ```
 
 ## What Redux SharedWorker can do ?
-Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker). We can communicate with multi windows. **Redux SharedWorker** middleware help us to sync **Actions** across multi windows.
+Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker). We can communicate with multi windows. **Redux SharedWorker** middleware help us to broadcast **Actions** to across multi Tabs and Windows.
 
 <p align="center">
   <img width="auto" height="450" src="demo01.gif"
