@@ -16,9 +16,14 @@ Relay on [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedW
 <p align="center">
   <img width="auto" height="450" src="https://github.com/flameddd/redux-sharedworker-demo/raw/master/demo2.gif"
 </p>
+
+<p align="center">
+  <img width="auto" height="450" src="https://github.com/flameddd/redux-sharedworker-demo2/raw/master/demo.gif"
+</p>
   
 ### demo repo
 - https://github.com/flameddd/redux-sharedworker-demo
+- https://github.com/flameddd/redux-sharedworker-demo2
 
 ## Installation
 ```bash
